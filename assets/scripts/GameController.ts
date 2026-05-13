@@ -1,0 +1,46 @@
+import { _decorator, Component, instantiate, Node, Prefab, Size, Vec3, view } from 'cc';
+const { ccclass, property } = _decorator;
+interface Block{
+    node:Node|null
+    speed:number
+}
+@ccclass('GameController')
+export class GameController extends Component {
+    @property({type: Prefab})
+    public boxPrefab: Prefab|null = null;
+    private blocks: Block[] = [];
+    private designSize: Size
+    start() {
+        this.designSize = view.getDesignResolutionSize();
+        this.schedule(() => {
+           this.generatBlock();
+        }, 1.0);
+    }
+    generatBlock(){
+        let node: Node | null = instantiate(this.boxPrefab);
+        this.node.addChild(node);
+        node.setPosition(this.designSize.width/2,(Math.random()-0.5)*2*this.designSize.height/2);
+        let block={node:node,speed:200};
+        this.blocks.push(block);
+    }
+    update(deltaTime: number) {
+        let temp=[];
+        for(let i=0;i<this.blocks.length;i++){
+            let block=this.blocks[i];
+            let lastPos=block.node.position;
+            Vec3.subtract(lastPos,lastPos,new Vec3(deltaTime*block.speed,0,0));
+            
+            block.node.setPosition(lastPos)
+            
+            if(lastPos.x<0){
+                console.log(lastPos.x)
+                block.node.destroy();
+            }else{
+                temp.push(block)
+            }
+        }
+        this.blocks=temp;
+    }
+}
+
+
