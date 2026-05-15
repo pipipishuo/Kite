@@ -8,6 +8,9 @@ class Physics{
     height:number=2;              //风筝高度
     wind:number[]=[];           //最多1W米  不能很高  半米一个数字  这样精度比较可以
     startTime:Date=new Date();
+
+    handa:number=0;
+    lastPressTime:Date=new Date();
     generateWind(){
         for(let i=0;i<5;i++){
             this.wind[i]=this.G+(Math.random())*2;
@@ -21,7 +24,7 @@ class Physics{
         setInterval (() => {
             this.compute(0.03);
             let cur=new Date();
-            console.log(this.a,this.v0,this.acLen,this.height,(cur.getTime()-this.startTime.getTime())/1000.0);
+            console.log("this.a",this.a.toFixed(2),"this.handa",this.handa.toFixed(2),"this.v0",this.v0.toFixed(2),"this.aclen",this.acLen,"this.height",this.height.toFixed(2),"time",(cur.getTime()-this.startTime.getTime())/1000.0);
             
             if(this.height<0){
                 process.exit(0);
@@ -30,6 +33,15 @@ class Physics{
 
         setInterval (() => {
             this.generateWind();
+        }, 10000);
+        setInterval (() => {
+           let cur=new Date();
+            let diff=cur.getTime()-this.lastPressTime.getTime();
+            
+            console.log("diff",diff);
+            if(diff>1e+3){      //超出1秒就为0
+                this.handa=0;
+            }
         }, 10000);
     }
     updateWind(){
@@ -61,6 +73,7 @@ class Physics{
     }
     compute(t:number){
         this.a=this.F/this.m;       //算加速度
+        this.a=this.handa+this.a;
         this.s=this.v0*t+0.5*this.a*t*t;//算出位移
         this.height=this.height+this.s;           //更新位置
 
@@ -79,6 +92,17 @@ class Physics{
         this.acLen-=1;
         if(this.acLen<=this.height){//此时保持平稳
             this.height=this.acLen     
+        }
+    }
+    run(){
+        let cur=new Date();
+        let diff=cur.getTime()-this.lastPressTime.getTime();
+        this.lastPressTime=cur;
+        console.log("diff",diff);
+        if(diff>1e+3){      //超出1秒就为0
+            this.handa=0;
+        }else{
+            this.handa=(1/diff)*200;
         }
     }
 }
@@ -101,7 +125,7 @@ process.stdin.on('keypress', (str: string, key: any) => {
   } else if (key.name === 'down') {
     p.down();
   } else if (key.name === 'left') {
-    console.log('← 左箭头');
+    p.run();
   } else if (key.name === 'right') {
     console.log('→ 右箭头');
   }
