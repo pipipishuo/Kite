@@ -42,7 +42,7 @@ class Physics{
             if(diff>1e+3){      //超出1秒就为0
                 this.handa=0;
             }
-        }, 10000);
+        }, 1000);
     }
     updateWind(){
         
