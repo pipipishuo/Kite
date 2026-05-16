@@ -1,4 +1,4 @@
-class Physics{
+export class Physics{
     G:number=30;//重力
     a:number=0;
     s:number=0;
@@ -18,15 +18,15 @@ class Physics{
     }
     constructor(){
         this.generateWind();
-        setInterval (() => {
-            this.compute(0.03);
-            let cur=new Date();
-            console.log(this.a,this.v0,this.acLen,this.height,(cur.getTime()-this.startTime.getTime())/1000.0);
+        // setInterval (() => {
+        //     this.compute(0.03);
+        //     let cur=new Date();
+        //     console.log(this.a,this.v0,this.acLen,this.height,(cur.getTime()-this.startTime.getTime())/1000.0);
             
-            if(this.height<0){
-                process.exit(0);
-            }
-        }, 30);
+        //     if(this.height<0){
+        //         //process.exit(0);
+        //     }
+        // }, 30);
 
         setInterval (() => {
             this.generateWind();
@@ -82,27 +82,27 @@ class Physics{
         }
     }
 }
-let p = new Physics();
-import readline from 'readline';
-// 启用原始输入模式
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
+// let p = new Physics();
+// import readline from 'readline';
+// // 启用原始输入模式
+// readline.emitKeypressEvents(process.stdin);
+// process.stdin.setRawMode(true);
 
-process.stdin.on('keypress', (str: string, key: any) => {
-  if (key.ctrl && key.name === 'c') {
-    console.log('退出程序');
-    process.exit();
-  }
+// process.stdin.on('keypress', (str: string, key: any) => {
+//   if (key.ctrl && key.name === 'c') {
+//     console.log('退出程序');
+//     process.exit();
+//   }
   
-  // 检测箭头键
-  if (key.name === 'up') {
-    console.log('↑ 上箭头');
-    p.up();
-  } else if (key.name === 'down') {
-    p.down();
-  } else if (key.name === 'left') {
-    console.log('← 左箭头');
-  } else if (key.name === 'right') {
-    console.log('→ 右箭头');
-  }
-});
+//   // 检测箭头键
+//   if (key.name === 'up') {
+//     console.log('↑ 上箭头');
+//     p.up();
+//   } else if (key.name === 'down') {
+//     p.down();
+//   } else if (key.name === 'left') {
+//     console.log('← 左箭头');
+//   } else if (key.name === 'right') {
+//     console.log('→ 右箭头');
+//   }
+// });

@@ -1,4 +1,5 @@
 import { _decorator, Component, instantiate, Node, Prefab, Size, Vec3, view } from 'cc';
+import {Physics} from './Simulate'
 const { ccclass, property } = _decorator;
 interface Block{
     node:Node|null
@@ -8,8 +9,11 @@ interface Block{
 export class GameController extends Component {
     @property({type: Prefab})
     public boxPrefab: Prefab|null = null;
+    @property({type: Node})
+    public player:Node;
     private blocks: Block[] = [];
-    private designSize: Size
+    private designSize: Size;
+    private phy:Physics=new Physics;
     start() {
         this.designSize = view.getDesignResolutionSize();
         this.schedule(() => {
@@ -40,6 +44,18 @@ export class GameController extends Component {
             }
         }
         this.blocks=temp;
+        this.phy.compute(deltaTime);
+        console.log(this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
+    }
+    up(){
+        this.phy.up()
+    }
+    down(){
+        this.phy.down()
+    }
+    run(){
+        let vec3=new Vec3(10,10,10);
+       this.player.scale=vec3;
     }
 }
 
