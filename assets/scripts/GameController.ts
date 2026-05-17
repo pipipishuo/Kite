@@ -46,6 +46,15 @@ export class GameController extends Component {
         this.blocks=temp;
         this.phy.compute(deltaTime);
         console.log(this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
+        
+        this.updateResize();
+        
+    }
+    updateResize(){
+        let scale=(2/this.phy.height)*2
+        console.log("scale",scale);
+        let vec3=new Vec3(scale,scale,scale);
+        this.player.scale=vec3;
     }
     up(){
         this.phy.up()
@@ -54,8 +63,8 @@ export class GameController extends Component {
         this.phy.down()
     }
     run(){
-        let vec3=new Vec3(10,10,10);
-       this.player.scale=vec3;
+        this.phy.run();
+       
     }
 }
 
