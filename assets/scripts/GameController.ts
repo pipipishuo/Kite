@@ -13,7 +13,7 @@ export class GameController extends Component {
     public player:Node;
     private blocks: Block[] = [];
     private designSize: Size;
-    private phy:Physics=new Physics;
+    private phy:Physics=Physics.getInstance();
     start() {
         this.designSize = view.getDesignResolutionSize();
         this.schedule(() => {
@@ -37,7 +37,7 @@ export class GameController extends Component {
             block.node.setPosition(lastPos)
             
             if(lastPos.x<0){
-                console.log(lastPos.x)
+                //console.log(lastPos.x)
                 block.node.destroy();
             }else{
                 temp.push(block)
@@ -45,14 +45,14 @@ export class GameController extends Component {
         }
         this.blocks=temp;
         this.phy.compute(deltaTime);
-        console.log(this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
+       // console.log(this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
         
         this.updateResize();
         
     }
     updateResize(){
         let scale=(2/this.phy.height)*2
-        console.log("scale",scale);
+       // console.log("scale",scale);
         let vec3=new Vec3(scale,scale,scale);
         this.player.scale=vec3;
     }

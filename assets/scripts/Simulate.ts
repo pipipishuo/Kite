@@ -11,6 +11,15 @@ export class Physics{
 
     handa:number=0;
     lastPressTime:Date=new Date();
+    // 静态实例，在类加载时创建
+    private static instance: Physics = new Physics();
+    
+    
+    
+    // 获取实例的静态方法
+    public static getInstance(): Physics {
+        return Physics.instance;
+    }
     generateWind(){
         for(let i=0;i<5;i++){
             this.wind[i]=this.G+(Math.random())*2;
@@ -19,7 +28,7 @@ export class Physics{
             this.wind[i]=this.G+(Math.random()-0.49)*2;
         }
     }
-    constructor(){
+   private constructor(){
         this.generateWind();
 
         // setInterval (() => {
@@ -39,7 +48,7 @@ export class Physics{
            let cur=new Date();
             let diff=cur.getTime()-this.lastPressTime.getTime();
             
-            console.log("diff",diff);
+            //console.log("diff",diff);
             if(diff>1e+3){      //超出1秒就为0
                 this.handa=0;
             }
@@ -99,7 +108,7 @@ export class Physics{
         let cur=new Date();
         let diff=cur.getTime()-this.lastPressTime.getTime();
         this.lastPressTime=cur;
-        console.log("diff",diff);
+        //console.log("diff",diff);
         if(diff>1e+3){      //超出1秒就为0
             this.handa=0;
         }else{

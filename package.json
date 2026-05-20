@@ -3,5 +3,8 @@
   "uuid": "966dd89b-43b8-48a9-945a-5372e61b2526",
   "creator": {
     "version": "3.8.8"
+  },
+  "dependencies": {
+    "catenary-curve": "^2.0.2"
   }
 }
