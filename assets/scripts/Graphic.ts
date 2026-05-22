@@ -24,7 +24,7 @@ export class Graphic extends Component {
         const reallen=this.phy.lineLen;
         const unreallen=this.phy.height*1.4142;
         const rate=len/unreallen;
-         console.log("height",this.phy.height);
+        // console.log("height",this.phy.height);
         let max=relativePos.y;
         const p1: Point = { x: 0, y: max };
         const p2: Point = { x: relativePos.x, y: 0 };

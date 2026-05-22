@@ -23,10 +23,10 @@ export class Player extends Component {
 
         setInterval (() => {
            let lastPos=this.node.getPosition();
-           lastPos.x=lastPos.x+random()-0.5;
-           lastPos.y=lastPos.y+random()-0.5;
+           lastPos.x=lastPos.x+(random()-0.5)*2;
+           lastPos.y=lastPos.y+(random()-0.5)*2;
            this.node.setPosition(lastPos);
-            console.log("lastpos",lastPos);
+            //console.log("lastpos",lastPos);
         }, 100);
     }
     onTouchStart() {}
