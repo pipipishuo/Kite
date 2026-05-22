@@ -21,10 +21,10 @@ export class Graphic extends Component {
         // 将目标节点的世界坐标转换到本节点的本地坐标系（以锚点为原点）
         const relativePos = myTransform.convertToNodeSpaceAR(targetWorldPos);
         const len=Math.sqrt(Math.pow(relativePos.x,2)+Math.pow(relativePos.y,2));
-        const reallen=this.phy.acLen*1.4142;
+        const reallen=this.phy.lineLen;
         const unreallen=this.phy.height*1.4142;
         const rate=len/unreallen;
-         
+         console.log("height",this.phy.height);
         let max=relativePos.y;
         const p1: Point = { x: 0, y: max };
         const p2: Point = { x: relativePos.x, y: 0 };
@@ -46,13 +46,9 @@ export class Graphic extends Component {
             this.graphics.moveTo(curve.start[0], max-curve.start[1]);
             for (const seg of curve.curves) {
                 // seg: [控制点X, 控制点Y, 终点X, 终点Y]
-                let y=Math.max(0,max-seg[3]);
-                if(y==0){
-                    this.graphics.moveTo(0, 0);
-                    this.graphics.lineTo( seg[2], y);
-                }else{
-                    this.graphics.quadraticCurveTo(seg[0], max-seg[1], seg[2], Math.max(0,max-seg[3]));
-                }
+                
+                
+                this.graphics.quadraticCurveTo(seg[0],Math.max(0,max-seg[1]), seg[2], Math.max(0,max-seg[3]));
                 //console.log("y",y);
                 
             }

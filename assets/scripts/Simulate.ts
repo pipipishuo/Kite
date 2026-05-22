@@ -3,9 +3,10 @@ export class Physics{
     a:number=0;
     s:number=0;
     v0:number=0;
-    acLen:number=2;     //实际绳子长度  必须大于等于 风筝高度
+    acLen:number=6;     //实际绳子长度  必须大于等于 风筝高度
+    lineLen:number=6*1.41421;
     m:number=3;
-    height:number=2;              //风筝高度
+    height:number=6;              //风筝高度
     wind:number[]=[];           //最多1W米  不能很高  半米一个数字  这样精度比较可以
     startTime:Date=new Date();
 
@@ -95,11 +96,15 @@ export class Physics{
         }
     }
     up(){
-        this.acLen+=1;
+        this.lineLen+=0.3;
+
+        this.acLen=this.lineLen*1.41421/2.0;
     }
     down(){
         
-        this.acLen-=1;
+         this.lineLen-=0.3;
+
+        this.acLen=this.lineLen*1.41421/2.0;
         if(this.acLen<=this.height){//此时保持平稳
             this.height=this.acLen     
         }

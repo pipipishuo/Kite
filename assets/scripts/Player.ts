@@ -1,4 +1,4 @@
-import {  _decorator, Component, Node, Vec3,SystemEventType, EventTouch } from 'cc';
+import {  _decorator, Component, Node, Vec3,SystemEventType, EventTouch, random } from 'cc';
 import { instance } from '../ThirdParty/joystick/scripts/Joystick';
 
 import  { JoystickDataType, SpeedType } from "../ThirdParty/joystick/scripts/Joystick";
@@ -8,7 +8,7 @@ const { ccclass, property } = _decorator;
 export class Player extends Component {
     @property(Node)
     joyStick:Node=null
-     private moveDir: Vec3 = new Vec3();
+    private moveDir: Vec3 = new Vec3();
     private speed: number = 5;
     private _speedType: SpeedType = SpeedType.STOP;
     private _moveSpeed = 0;
@@ -20,6 +20,14 @@ export class Player extends Component {
         instance.on(SystemEventType.TOUCH_MOVE, this.onJoystickMove, this);
         instance.on(SystemEventType.TOUCH_START, this.onTouchStart, this);
         instance.on(SystemEventType.TOUCH_END, this.onTouchEnd, this);
+
+        setInterval (() => {
+           let lastPos=this.node.getPosition();
+           lastPos.x=lastPos.x+random()-0.5;
+           lastPos.y=lastPos.y+random()-0.5;
+           this.node.setPosition(lastPos);
+            console.log("lastpos",lastPos);
+        }, 100);
     }
     onTouchStart() {}
     onTouchEnd(event: EventTouch, data: JoystickDataType) {

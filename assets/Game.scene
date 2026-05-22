@@ -23,7 +23,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 75
+      "__id__": 76
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -54,7 +54,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 76
+      "__id__": 77
     },
     "_id": "8311ece5-e8f8-423d-a86e-fa6508c6a20d"
   },
@@ -89,17 +89,14 @@
         "__id__": 57
       },
       {
-        "__id__": 64
+        "__id__": 65
       },
       {
-        "__id__": 67
+        "__id__": 68
       }
     ],
     "_active": true,
     "_components": [
-      {
-        "__id__": 71
-      },
       {
         "__id__": 72
       },
@@ -108,6 +105,9 @@
       },
       {
         "__id__": 74
+      },
+      {
+        "__id__": 75
       }
     ],
     "_prefab": null,
@@ -2306,7 +2306,11 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 64
+      }
+    ],
     "_interactable": true,
     "_transition": 2,
     "_normalColor": {
@@ -2361,6 +2365,16 @@
     "_id": "71n+hC4s9KLoQAHJQ0E3VV"
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "9763dJzV8BA4747UkQ5qmeW",
+    "handler": "down",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Node",
     "_name": "Audio",
     "_objFlags": 0,
@@ -2372,10 +2386,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 65
+        "__id__": 66
       },
       {
-        "__id__": 66
+        "__id__": 67
       }
     ],
     "_prefab": null,
@@ -2414,7 +2428,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 64
+      "__id__": 65
     },
     "_enabled": true,
     "__prefab": null,
@@ -2436,7 +2450,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 64
+      "__id__": 65
     },
     "_enabled": true,
     "__prefab": null,
@@ -2461,13 +2475,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 68
-      },
-      {
         "__id__": 69
       },
       {
         "__id__": 70
+      },
+      {
+        "__id__": 71
       }
     ],
     "_prefab": null,
@@ -2506,7 +2520,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 67
+      "__id__": 68
     },
     "_enabled": true,
     "__prefab": null,
@@ -2528,7 +2542,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 67
+      "__id__": 68
     },
     "_enabled": true,
     "__prefab": null,
@@ -2568,7 +2582,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 67
+      "__id__": 68
     },
     "_enabled": true,
     "__prefab": null,
@@ -2675,28 +2689,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 77
-    },
-    "shadows": {
       "__id__": 78
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 79
     },
-    "fog": {
+    "_skybox": {
       "__id__": 80
     },
-    "octree": {
+    "fog": {
       "__id__": 81
     },
-    "skin": {
+    "octree": {
       "__id__": 82
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 83
     },
-    "postSettings": {
+    "lightProbeInfo": {
       "__id__": 84
+    },
+    "postSettings": {
+      "__id__": 85
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
