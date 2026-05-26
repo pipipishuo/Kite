@@ -11,6 +11,16 @@ export class GameController extends Component {
     public boxPrefab: Prefab|null = null;
     @property({type: Node})
     public player:Node;
+    @property({type: Node})
+    public line:Node;
+    @property({type: Node})
+    public runbtn:Node;
+    @property({type: Node})
+    public upbtn:Node;
+    @property({type: Node})
+    public downbtn:Node;
+    @property({type: Node})
+    public startbtn:Node;
     private blocks: Block[] = [];
     private designSize: Size;
     private phy:Physics=Physics.getInstance();
@@ -22,6 +32,34 @@ export class GameController extends Component {
         this.schedule(() => {
            this.generatBlock();
         }, 10.0);
+        this.setComponentVisible(false);
+        // this.schedule(()=>{
+        //     if (this.bgmAudioSource) {
+        //         if(this.phy.a>0){
+        //             // 确保音量值在 0-1 范围内
+        //             this.bgmAudioSource.volume = Math.min(1, Math.max(0, this.bgmAudioSource.volume*2));
+                    
+        //         }else{
+        //             this.bgmAudioSource.volume = Math.min(1, Math.max(0, this.bgmAudioSource.volume/2));
+        //         }
+        //         console.log("this.bgmAudioSource.volume",this.bgmAudioSource.volume);
+        //     }
+        // },1);
+    }
+    onPauseClick(){
+        this.startbtn.active=false;
+         this.setComponentVisible(true);
+    }
+    onStartClick(){
+        this.startbtn.active=false;
+         this.setComponentVisible(true);
+    }
+    setComponentVisible(flag){
+        this.player.active = flag;
+        this.line.active = flag;
+        this.runbtn.active=flag;
+        this.upbtn.active=flag;
+        this.downbtn.active=flag;
     }
     generatBlock(){
         let node: Node | null = instantiate(this.boxPrefab);
@@ -52,14 +90,7 @@ export class GameController extends Component {
        // console.log(this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
         
         this.updateResize();
-        if (this.bgmAudioSource) {
-            if(this.phy.a>0){
-                // 确保音量值在 0-1 范围内
-                this.bgmAudioSource.volume = Math.min(1, Math.max(0, this.bgmAudioSource.volume+0.1));
-            }else{
-                this.bgmAudioSource.volume = Math.min(1, Math.max(0, this.bgmAudioSource.volume-0.1));
-            }
-        }
+       
     }
     updateResize(){
         let scale=(2/this.phy.height)*2

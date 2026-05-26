@@ -134,6 +134,7 @@ export class Joystick extends Component {
     if (this.joystickType === JoystickType.FOLLOW && uiOpacity) {
       uiOpacity.opacity = 0;
     }
+    
   }
 
   /**

@@ -7,7 +7,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Player')
 export class Player extends Component {
     @property(Node)
-    joyStick:Node=null
+    private joyStick:Node=null
     private moveDir: Vec3 = new Vec3();
     private speed: number = 5;
     private _speedType: SpeedType = SpeedType.STOP;
@@ -15,12 +15,18 @@ export class Player extends Component {
     private stopSpeed = 0;
     private normalSpeed = 100;
     private fastSpeed = 200;
+    onLoad() {
+    if (this.joyStick) {
+        this.joyStick.active = false;
+    }
+    }
     start() {
   // 监听摇杆事件
+  
         instance.on(SystemEventType.TOUCH_MOVE, this.onJoystickMove, this);
         instance.on(SystemEventType.TOUCH_START, this.onTouchStart, this);
         instance.on(SystemEventType.TOUCH_END, this.onTouchEnd, this);
-
+        
         setInterval (() => {
            let lastPos=this.node.getPosition();
            lastPos.x=lastPos.x+(random()-0.5)*2;
