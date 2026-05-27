@@ -1,10 +1,14 @@
-import { _decorator, AudioSource, Component, instantiate, Node, Prefab, Size, Vec3, view } from 'cc';
+import { _decorator, AudioSource, Component, instantiate, Label, Node, Prefab, Size, Vec3, view } from 'cc';
 import {Physics} from './Simulate'
 const { ccclass, property } = _decorator;
 interface Block{
     node:Node|null
     speed:number
 }
+enum State{
+    RUNNING,
+    PAUSE
+};
 @ccclass('GameController')
 export class GameController extends Component {
     @property({type: Prefab})
@@ -21,12 +25,19 @@ export class GameController extends Component {
     public downbtn:Node;
     @property({type: Node})
     public startbtn:Node;
+    @property({type: Node})
+    public pausebtn:Node;
+    @property({type: Label})
+    public score:Label;
+    @property({type: Label})
+    public height:Label;
+    public timer:number=0;
     private blocks: Block[] = [];
     private designSize: Size;
     private phy:Physics=Physics.getInstance();
     @property(AudioSource)
     public bgmAudioSource: AudioSource = null!; // 从编辑器中拖入背景音乐的AudioSource组件
-
+    private state:State=State.PAUSE;
     start() {
         this.designSize = view.getDesignResolutionSize();
         this.schedule(() => {
@@ -45,14 +56,22 @@ export class GameController extends Component {
         //         console.log("this.bgmAudioSource.volume",this.bgmAudioSource.volume);
         //     }
         // },1);
+
     }
     onPauseClick(){
-        this.startbtn.active=false;
-         this.setComponentVisible(true);
+        const labelNode=this.startbtn.getChildByName("Label");
+        const label = labelNode?.getComponent(Label);
+        if (label) {
+            label.string = "继续游戏";
+        }
+        this.startbtn.active=true;
+        this.setComponentVisible(false);
+        this.state=State.PAUSE;
     }
     onStartClick(){
-        this.startbtn.active=false;
+         this.startbtn.active=false;
          this.setComponentVisible(true);
+         this.state=State.RUNNING;
     }
     setComponentVisible(flag){
         this.player.active = flag;
@@ -60,8 +79,20 @@ export class GameController extends Component {
         this.runbtn.active=flag;
         this.upbtn.active=flag;
         this.downbtn.active=flag;
+        this.pausebtn.active=flag;
+        for(let i=0;i<this.blocks.length;i++){
+            let block=this.blocks[i];
+            block.node.active=flag;
+        }
+        if(flag){
+            this.bgmAudioSource.play();
+        }else{
+            this.bgmAudioSource.stop();
+        }
+        
     }
     generatBlock(){
+        if(this.state!=State.RUNNING)return; 
         let node: Node | null = instantiate(this.boxPrefab);
         this.node.addChild(node);
         node.setPosition(this.designSize.width/2,(Math.random()-0.5)*2*this.designSize.height/2);
@@ -69,7 +100,24 @@ export class GameController extends Component {
         this.blocks.push(block);
         
     }
+    
+    formatFull(seconds: number): string {
+        const hours = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = Math.floor(seconds % 60);
+        
+        const parts: string[] = [];
+        if (hours > 0) parts.push(hours.toString().padStart(2, '0'));
+        parts.push(mins.toString().padStart(2, '0'));
+        parts.push(secs.toString().padStart(2, '0'));
+        
+        return parts.join(':');
+    }
     update(deltaTime: number) {
+        if(this.state!=State.RUNNING)return;        //不到运行时不更新
+        this.timer+=deltaTime;
+        this.score.string="时间:  "+this.formatFull(Math.floor(this.timer));
+        this.height.string="高度:"+this.phy.height.toFixed(1)+"米";
         let temp=[];
         for(let i=0;i<this.blocks.length;i++){
             let block=this.blocks[i];
