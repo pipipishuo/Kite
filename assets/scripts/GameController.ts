@@ -1,4 +1,4 @@
-import { _decorator, AudioSource, Component, instantiate, Label, Node, Prefab, Size, Vec3, view } from 'cc';
+import { _decorator, AudioSource, Component, instantiate, Label, Node, Prefab, Size, Sprite, Vec3, view ,random} from 'cc';
 import {Physics} from './Simulate'
 const { ccclass, property } = _decorator;
 interface Block{
@@ -31,6 +31,8 @@ export class GameController extends Component {
     public score:Label;
     @property({type: Label})
     public height:Label;
+    @property({type: Node})
+    public hand:Node;
     public timer:number=0;
     private blocks: Block[] = [];
     private designSize: Size;
@@ -68,6 +70,17 @@ export class GameController extends Component {
         this.setComponentVisible(false);
         this.state=State.PAUSE;
     }
+     onStopClick(){
+        const labelNode=this.startbtn.getChildByName("Label");
+        const label = labelNode?.getComponent(Label);
+        if (label) {
+            label.string = "开始游戏";
+        }
+        this.startbtn.active=true;
+        this.setComponentVisible(false);
+        this.state=State.PAUSE;
+        this.phy.height=6;
+    }
     onStartClick(){
          this.startbtn.active=false;
          this.setComponentVisible(true);
@@ -80,6 +93,7 @@ export class GameController extends Component {
         this.upbtn.active=flag;
         this.downbtn.active=flag;
         this.pausebtn.active=flag;
+        this.hand.active=flag;
         for(let i=0;i<this.blocks.length;i++){
             let block=this.blocks[i];
             block.node.active=flag;
@@ -134,9 +148,14 @@ export class GameController extends Component {
             }
         }
         this.blocks=temp;
+        console.log("last",this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height); 
         this.phy.compute(deltaTime);
-       // console.log(this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
-        
+        console.log("cur",this.phy.a,this.phy.v0,this.phy.acLen,this.phy.height);    
+       if(this.phy.height<5){
+        console.log("failed!");
+        this.onStopClick();
+       } 
+
         this.updateResize();
        
     }
@@ -145,6 +164,13 @@ export class GameController extends Component {
        // console.log("scale",scale);
         let vec3=new Vec3(scale,scale,scale);
         this.player.scale=vec3;
+        let lastPos=this.player.getPosition();
+        
+        lastPos.x=lastPos.x+(random()-0.5)*2;
+        
+        lastPos.y=this.phy.height/(100/960.0)-368;
+                
+        this.player.setPosition(lastPos);
     }
     up(){
         this.phy.up()

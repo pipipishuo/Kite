@@ -27,13 +27,7 @@ export class Player extends Component {
         instance.on(SystemEventType.TOUCH_START, this.onTouchStart, this);
         instance.on(SystemEventType.TOUCH_END, this.onTouchEnd, this);
         
-        setInterval (() => {
-           let lastPos=this.node.getPosition();
-           lastPos.x=lastPos.x+(random()-0.5)*2;
-           lastPos.y=lastPos.y+(random()-0.5)*2;
-           this.node.setPosition(lastPos);
-            //console.log("lastpos",lastPos);
-        }, 100);
+        
     }
     onTouchStart() {}
     onTouchEnd(event: EventTouch, data: JoystickDataType) {
@@ -69,15 +63,15 @@ export class Player extends Component {
         
 
         
-        const oldPos = this.node.getPosition();
-        const newPos = oldPos.add(
-            // fps: 60
-            this.moveDir.clone().multiplyScalar(this._moveSpeed / 60)
-        );
-        console.log(this._moveSpeed / 60);
-        this.node.setPosition(newPos);
+        // const oldPos = this.node.getPosition();
+        // const newPos = oldPos.add(
+        //     // fps: 60
+        //     this.moveDir.clone().multiplyScalar(this._moveSpeed / 60)
+        // );
+        // console.log(this._moveSpeed / 60);
+        // this.node.setPosition(newPos);
 
-        console.log(newPos);
+        // console.log(newPos);
         
     }
     update(deltaTime: number) {
