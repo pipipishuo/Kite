@@ -160,7 +160,7 @@ export class GameController extends Component {
        
     }
     updateResize(){
-        let scale=(2/this.phy.height)*2
+        let scale=(2/this.phy.height)*6
        // console.log("scale",scale);
         let vec3=new Vec3(scale,scale,scale);
         this.player.scale=vec3;
